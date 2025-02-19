@@ -1,0 +1,26 @@
+.inventory {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 600px;
+  margin: 20px auto 0;
+}
+
+.inv-slot {
+  width: 80px;
+  height: 80px;
+  background: #555;
+  border: 2px solid #333;
+  border-radius: 8px;
+  margin: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.inv-slot.empty {
+  background: #444;
+}

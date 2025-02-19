@@ -1,0 +1,12 @@
+<div class="inventory">
+  <div
+    class="inv-slot"
+    *ngFor="let item of inventory"
+    [class.empty]="item.type === 'empty'"
+    (click)="selectItem(item)"
+  >
+    {{
+      item.type === "empty" ? "Vacío" : item.type + " (" + item.quantity + ")"
+    }}
+  </div>
+</div>

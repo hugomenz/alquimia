@@ -1,0 +1,68 @@
+[
+  {
+    "type": "fuego",
+    "displayName": "Fuego",
+    "color": "#ff4500",
+    "description": "Elemento ardiente que representa energía y destrucción."
+  },
+  {
+    "type": "agua",
+    "displayName": "Agua",
+    "color": "#00bfff",
+    "description": "Elemento fluido que representa la vida y el cambio."
+  },
+  {
+    "type": "aire",
+    "displayName": "Aire",
+    "color": "#d3d3d3",
+    "description": "Elemento gaseoso que representa libertad y movimiento."
+  },
+  {
+    "type": "tierra",
+    "displayName": "Tierra",
+    "color": "#8b4513",
+    "description": "Elemento sólido que representa estabilidad y crecimiento."
+  },
+  {
+    "type": "vapor",
+    "displayName": "Vapor",
+    "color": "#cccccc",
+    "description": "Resultado de combinar fuego y agua, representa transformación."
+  },
+  {
+    "type": "calor",
+    "displayName": "Calor",
+    "color": "#ffa500",
+    "description": "Resultado de combinar fuego y aire, representa energía concentrada."
+  },
+  {
+    "type": "nube",
+    "displayName": "Nube",
+    "color": "#f0f8ff",
+    "description": "Resultado de combinar agua y aire, representa lo etéreo."
+  },
+  {
+    "type": "barro",
+    "displayName": "Barro",
+    "color": "#a0522d",
+    "description": "Resultado de combinar agua y tierra, representa maleabilidad."
+  },
+  {
+    "type": "lava",
+    "displayName": "Lava",
+    "color": "#ff6347",
+    "description": "Resultado de combinar fuego y tierra, representa creación destructiva."
+  },
+  {
+    "type": "polvo",
+    "displayName": "Polvo",
+    "color": "#c2b280",
+    "description": "Resultado de combinar aire y tierra, representa desintegración."
+  },
+  {
+    "type": "roca",
+    "displayName": "Roca",
+    "color": "#808080",
+    "description": "Resultado de combinar tierra con tierra, representa solidez y fortaleza."
+  }
+]

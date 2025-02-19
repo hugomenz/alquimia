@@ -1,0 +1,5 @@
+<div class="main-stage">
+  <div class="stage-slot">{{ slot1 ? slot1 : "Vacío" }}</div>
+  <div class="stage-slot">{{ slot2 ? slot2 : "Vacío" }}</div>
+</div>
+<button (click)="fuse()" [disabled]="!slot1 || !slot2">Fusionar</button>

@@ -1,0 +1,30 @@
+[
+  {
+    "inputs": ["fuego", "agua"],
+    "result": "vapor"
+  },
+  {
+    "inputs": ["fuego", "aire"],
+    "result": "calor"
+  },
+  {
+    "inputs": ["agua", "aire"],
+    "result": "nube"
+  },
+  {
+    "inputs": ["agua", "tierra"],
+    "result": "barro"
+  },
+  {
+    "inputs": ["fuego", "tierra"],
+    "result": "lava"
+  },
+  {
+    "inputs": ["aire", "tierra"],
+    "result": "polvo"
+  },
+  {
+    "inputs": ["tierra", "tierra"],
+    "result": "roca"
+  }
+]
