@@ -1,0 +1,73 @@
+<div class="achievements-panel">
+  <div class="panel-header">
+    <h3>🏆 Logros</h3>
+    <div class="achievement-stats">
+      <div class="stats-summary">
+        <span class="unlocked-count">{{ getUnlockedCount() }}</span>
+        <span class="total-count">/ {{ getTotalCount() }}</span>
+        <div class="progress-circle">
+          <svg width="40" height="40" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+            <circle 
+              cx="20" cy="20" r="18" fill="none" 
+              stroke="#f39c12" stroke-width="3"
+              [attr.stroke-dasharray]="113 * getUnlockedPercentage() / 100 + ' 113'"
+              stroke-dashoffset="0"
+              transform="rotate(-90 20 20)"
+              style="transition: stroke-dasharray 0.5s ease"/>
+          </svg>
+          <span class="percentage">{{ getUnlockedPercentage() }}%</span>
+        </div>
+      </div>
+      <button 
+        class="filter-toggle" 
+        [class.active]="showUnlockedOnly"
+        (click)="toggleFilter()"
+      >
+        {{ showUnlockedOnly ? '👁️ Todos' : '🔓 Solo Desbloqueados' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="achievements-grid">
+    <div 
+      *ngFor="let achievement of getFilteredAchievements()" 
+      class="achievement-card"
+      [class.unlocked]="achievement.unlocked"
+      [class.locked]="!achievement.unlocked"
+    >
+      <div class="achievement-icon">
+        <span *ngIf="achievement.unlocked; else lockedIcon">{{ achievement.icon }}</span>
+        <ng-template #lockedIcon>🔒</ng-template>
+      </div>
+      
+      <div class="achievement-content">
+        <h4 class="achievement-name" 
+            [style.color]="achievement.unlocked ? '#f39c12' : '#7f8c8d'">
+          {{ achievement.name }}
+        </h4>
+        <p class="achievement-description"
+           [style.color]="achievement.unlocked ? '#ecf0f1' : '#95a5a6'">
+          {{ achievement.description }}
+        </p>
+      </div>
+
+      <div class="achievement-status">
+        <div class="status-indicator" 
+             [style.background-color]="achievement.unlocked ? '#2ecc71' : '#7f8c8d'">
+          <span *ngIf="achievement.unlocked; else pendingStatus">✓</span>
+          <ng-template #pendingStatus>⏳</ng-template>
+        </div>
+      </div>
+
+      <div class="unlock-glow" *ngIf="achievement.unlocked"></div>
+    </div>
+  </div>
+
+  <div class="panel-footer" *ngIf="getFilteredAchievements().length === 0">
+    <div class="no-achievements">
+      <span class="no-achievements-icon">🎯</span>
+      <p>{{ showUnlockedOnly ? 'Aún no has desbloqueado logros' : 'No hay logros disponibles' }}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  padding: 20px 0;
+}
+
+h1 {
+  text-align: center;
+  color: white;
+  font-size: 3em;
+  margin: 0 0 40px 0;
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+// Global styles for the game
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #1e3c72;
+}
+
+// Add some spacing between components
+app-main-stage,
+app-inventory,
+app-achievements-panel {
+  display: block;
+  margin-bottom: 30px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  :host {
+    padding: 10px 0;
+  }
+
+  h1 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+  }
+
+  app-main-stage,
+  app-inventory,
+  app-achievements-panel {
+    margin-bottom: 20px;
+  }
+}

@@ -1,60 +1,155 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { InventoryService } from '../../services/inventory.service';
-import { CombinationsService } from '../../services/combinations.service';
+import { CombinationsService, Combination } from '../../services/combinations.service';
+import { ElementsService, ElementData } from '../../services/elements.service';
+import { GameStateService } from '../../services/game-state.service';
 
 @Component({
   selector: 'app-main-stage',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './main-stage.component.html',
   styleUrl: './main-stage.component.scss',
 })
 export class MainStageComponent implements OnInit {
-  slot1: string | null = null;
-  slot2: string | null = null;
-  combinations: { inputs: string[]; result: string }[] = [];
+  slots: (string | null)[] = [null, null, null]; // Support up to 3 elements
+  combinations: Combination[] = [];
+  elements: ElementData[] = [];
+  currentHint: string | null = null;
+  lastResult: { element: string | null, success: boolean } | null = null;
+  isAnimating: boolean = false;
 
   constructor(
     private invService: InventoryService,
-    private combService: CombinationsService
+    private combService: CombinationsService,
+    private elementsService: ElementsService,
+    private gameState: GameStateService
   ) {}
 
   ngOnInit() {
     this.combService.getCombinations().subscribe((data) => {
       this.combinations = data;
     });
+
+    this.elementsService.getElements().subscribe((elements) => {
+      this.elements = elements;
+      this.gameState.setTotalElements(elements.length);
+    });
   }
 
   placeElement(type: string): boolean {
-    // Intenta colocar el elemento si hay lugar
-    if (!this.slot1) {
-      this.slot1 = type;
-      return true;
-    } else if (!this.slot2) {
-      this.slot2 = type;
+    // Find first empty slot
+    const emptySlotIndex = this.slots.findIndex(slot => slot === null);
+    if (emptySlotIndex !== -1) {
+      this.slots[emptySlotIndex] = type;
+      this.updateHint();
       return true;
     }
     return false;
   }
 
-  fuse() {
-    if (this.slot1 && this.slot2) {
-      const combo = this.combinations.find(
-        (c) =>
-          (c.inputs[0] === this.slot1 && c.inputs[1] === this.slot2) ||
-          (c.inputs[0] === this.slot2 && c.inputs[1] === this.slot1)
-      );
-      if (combo) {
-        this.invService.addItem(combo.result);
-      } else {
-        console.log('No se generó un nuevo elemento');
-      }
-      this.clearSlots();
+  removeElementFromSlot(index: number): void {
+    if (this.slots[index]) {
+      const elementType = this.slots[index]!;
+      this.slots[index] = null;
+      this.invService.addItem(elementType);
+      this.updateHint();
     }
   }
 
-  clearSlots() {
-    this.slot1 = null;
-    this.slot2 = null;
+  fuse(): void {
+    const activeElements = this.slots.filter(slot => slot !== null) as string[];
+    
+    if (activeElements.length < 2) {
+      this.showMessage('Necesitas al menos 2 elementos', false);
+      return;
+    }
+
+    this.isAnimating = true;
+    this.gameState.recordCombination(activeElements, null); // Initial record
+
+    setTimeout(() => {
+      const combo = this.combService.findCombination(activeElements, this.combinations);
+      
+      if (combo) {
+        // Success!
+        this.gameState.recordCombination(activeElements, combo.result); // Update with success
+        this.gameState.discoverElement(combo.result);
+        this.invService.addItem(combo.result);
+        this.showMessage(`¡Creaste ${this.getElementDisplayName(combo.result)}!`, true);
+        
+        if (combo.description) {
+          setTimeout(() => {
+            this.showMessage(combo.description!, true);
+          }, 2000);
+        }
+      } else {
+        this.showMessage('No se generó un nuevo elemento', false);
+      }
+      
+      this.clearSlots();
+      this.isAnimating = false;
+    }, 1500); // Animation duration
+  }
+
+  clearSlots(): void {
+    this.slots = [null, null, null];
+    this.currentHint = null;
+    this.updateHint();
+  }
+
+  private updateHint(): void {
+    const activeElements = this.slots.filter(slot => slot !== null) as string[];
+    if (activeElements.length > 0) {
+      this.currentHint = this.combService.getHint(activeElements, this.combinations);
+    } else {
+      this.currentHint = null;
+    }
+  }
+
+  private showMessage(message: string, success: boolean): void {
+    this.lastResult = { element: message, success };
+    setTimeout(() => {
+      this.lastResult = null;
+    }, 3000);
+  }
+
+  private getElementDisplayName(type: string): string {
+    const element = this.elements.find(el => el.type === type);
+    return element ? element.displayName : type;
+  }
+
+  getElementData(type: string): ElementData | null {
+    return this.elements.find(el => el.type === type) || null;
+  }
+
+  canFuse(): boolean {
+    const activeElements = this.slots.filter(slot => slot !== null);
+    return activeElements.length >= 2 && !this.isAnimating;
+  }
+
+  getSlotClass(index: number): string {
+    const slot = this.slots[index];
+    if (!slot) return 'stage-slot empty';
+    
+    const element = this.getElementData(slot);
+    if (!element) return 'stage-slot';
+    
+    return `stage-slot filled ${element.category} ${element.rarity}`;
+  }
+
+  getSlotStyle(index: number): any {
+    const slot = this.slots[index];
+    if (!slot) return {};
+    
+    const element = this.getElementData(slot);
+    if (!element) return {};
+    
+    return {
+      'background-color': element.color + '20',
+      'border-color': element.color,
+      'color': element.color
+    };
   }
 }
