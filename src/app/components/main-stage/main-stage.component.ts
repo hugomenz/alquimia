@@ -4,6 +4,7 @@ import { InventoryService } from '../../services/inventory.service';
 import { CombinationsService, Combination } from '../../services/combinations.service';
 import { ElementsService, ElementData } from '../../services/elements.service';
 import { GameStateService } from '../../services/game-state.service';
+import { EconomyService } from '../../services/economy.service';
 
 @Component({
   selector: 'app-main-stage',
@@ -24,7 +25,8 @@ export class MainStageComponent implements OnInit {
     private invService: InventoryService,
     private combService: CombinationsService,
     private elementsService: ElementsService,
-    private gameState: GameStateService
+    private gameState: GameStateService,
+    private economyService: EconomyService
   ) {}
 
   ngOnInit() {
@@ -66,6 +68,18 @@ export class MainStageComponent implements OnInit {
       return;
     }
 
+    // Check energy before attempting fusion
+    if (!this.economyService.canPerformCombination()) {
+      this.showMessage('No tienes suficiente energía. Compra un boost o activa premium.', false);
+      return;
+    }
+
+    // Consume energy
+    if (!this.economyService.consumeEnergyForCombination()) {
+      this.showMessage('Error al consumir energía', false);
+      return;
+    }
+
     this.isAnimating = true;
     this.gameState.recordCombination(activeElements, null); // Initial record
 
@@ -75,14 +89,31 @@ export class MainStageComponent implements OnInit {
       if (combo) {
         // Success!
         this.gameState.recordCombination(activeElements, combo.result); // Update with success
+        
+        // Check if this is a new discovery for economy tracking
+        const wasDiscovered = this.gameState.isElementDiscovered(combo.result);
         this.gameState.discoverElement(combo.result);
+        
+        // Record discovery in economy system if it's new
+        if (!wasDiscovered) {
+          this.economyService.recordElementDiscovery(combo.result);
+        }
+        
         this.invService.addItem(combo.result);
         this.showMessage(`¡Creaste ${this.getElementDisplayName(combo.result)}!`, true);
+        
+        // Show value earned if it's a first discovery
+        if (!wasDiscovered) {
+          const elementValue = this.economyService.getElementValue(combo.result);
+          setTimeout(() => {
+            this.showMessage(`🎉 ¡Primera descoberta! +${elementValue.currentValue} ALQ`, true);
+          }, 2000);
+        }
         
         if (combo.description) {
           setTimeout(() => {
             this.showMessage(combo.description!, true);
-          }, 2000);
+          }, 4000);
         }
       } else {
         this.showMessage('No se generó un nuevo elemento', false);
@@ -126,7 +157,7 @@ export class MainStageComponent implements OnInit {
 
   canFuse(): boolean {
     const activeElements = this.slots.filter(slot => slot !== null);
-    return activeElements.length >= 2 && !this.isAnimating;
+    return activeElements.length >= 2 && !this.isAnimating && this.economyService.canPerformCombination();
   }
 
   getSlotClass(index: number): string {

@@ -1,0 +1,146 @@
+<div class="portfolio-container">
+  <!-- Player Economics Overview -->
+  <div class="economics-header">
+    <div class="portfolio-title">
+      <h2>💰 Player Portfolio</h2>
+      <div class="premium-status" *ngIf="playerEconomics?.premiumStatus" class="premium-badge">
+        ⭐ Premium
+      </div>
+    </div>
+    
+    <div class="economics-summary" *ngIf="playerEconomics">
+      <div class="stat-card portfolio-value">
+        <div class="stat-icon">💎</div>
+        <div class="stat-content">
+          <div class="stat-label">Portfolio Value</div>
+          <div class="stat-value">{{ formatValue(playerEconomics.totalPortfolioValue) }} ALQ</div>
+        </div>
+      </div>
+
+      <div class="stat-card discoveries">
+        <div class="stat-icon">🔍</div>
+        <div class="stat-content">
+          <div class="stat-label">Elements Discovered</div>
+          <div class="stat-value">{{ playerEconomics.totalElementsDiscovered }}</div>
+        </div>
+      </div>
+
+      <div class="stat-card first-discoveries">
+        <div class="stat-icon">🥇</div>
+        <div class="stat-content">
+          <div class="stat-label">First Discoveries</div>
+          <div class="stat-value">{{ playerEconomics.firstDiscoveries }}</div>
+        </div>
+      </div>
+
+      <div class="stat-card efficiency">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-content">
+          <div class="stat-label">Efficiency Bonus</div>
+          <div class="stat-value">{{ ((playerEconomics.efficiencyBonus - 1) * 100).toFixed(0) }}%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Energy System -->
+  <div class="energy-system" *ngIf="playerEconomics">
+    <div class="energy-header">
+      <h3>⚡ Energy System</h3>
+      <div class="energy-actions" *ngIf="!playerEconomics.premiumStatus">
+        <button class="boost-button" (click)="buyEnergyBoost()" [disabled]="energyPercentage === 100">
+          💫 Energy Boost (+50)
+        </button>
+        <button class="premium-button" (click)="activatePremium()">
+          ⭐ Go Premium (Unlimited Energy)
+        </button>
+      </div>
+    </div>
+    
+    <div class="energy-display">
+      <div class="energy-bar">
+        <div class="energy-fill" 
+             [style.width.%]="energyPercentage"
+             [style.background-color]="getEnergyStatusColor()">
+        </div>
+      </div>
+      <div class="energy-text">
+        <span>{{ playerEconomics.currentEnergy }} / {{ playerEconomics.maxEnergy }}</span>
+        <span class="energy-status" 
+              [style.color]="canPerformCombination() ? '#2ecc71' : '#e74c3c'">
+          {{ canPerformCombination() ? '✓ Ready' : '⚠️ Low Energy' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Portfolio Details -->
+  <div class="portfolio-sections">
+    <!-- Discovered Elements -->
+    <div class="elements-section">
+      <h3>🧪 Your Elements ({{ discoveredElements.length }})</h3>
+      <div class="elements-grid">
+        <div *ngFor="let element of discoveredElements" class="element-card">
+          <div class="element-header">
+            <div class="element-icon" [style.background-color]="element.color">
+              {{ element.displayName.charAt(0) }}
+            </div>
+            <div class="element-info">
+              <div class="element-name">{{ element.displayName }}</div>
+              <div class="element-category" [style.color]="getRarityColor(element.rarity)">
+                {{ element.rarity }}
+              </div>
+            </div>
+            <div class="element-value">
+              <div class="current-value">{{ formatValue(element.currentValue) }} ALQ</div>
+              <div class="base-value" *ngIf="element.firstDiscovererBonus > 0">
+                ({{ formatValue(element.baseValue) }} + {{ formatValue(element.firstDiscovererBonus) }} 🥇)
+              </div>
+            </div>
+          </div>
+          
+          <div class="element-badges">
+            <span class="difficulty-badge">Diff: {{ element.difficulty }}</span>
+            <span class="first-discovery-badge" *ngIf="element.isFirstDiscoverer">🥇 First!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- First Discoveries Highlight -->
+    <div class="first-discoveries-section" *ngIf="firstDiscoveries.length > 0">
+      <h3>🥇 Your First Discoveries ({{ firstDiscoveries.length }})</h3>
+      <div class="first-discoveries-list">
+        <div *ngFor="let element of firstDiscoveries" class="first-discovery-item">
+          <div class="discovery-icon" [style.background-color]="element.color">
+            {{ element.displayName.charAt(0) }}
+          </div>
+          <div class="discovery-details">
+            <div class="discovery-name">{{ element.displayName }}</div>
+            <div class="discovery-value">{{ formatValue(element.currentValue) }} ALQ</div>
+            <div class="discovery-time" *ngIf="element.discoveryTimestamp">
+              {{ formatTime(element.discoveryTimestamp) }}
+            </div>
+          </div>
+          <div class="discovery-bonus">
+            +{{ formatValue(element.firstDiscovererBonus) }} ALQ
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div class="leaderboard-section">
+      <h3>🏆 Discovery Leaderboard (Top 10)</h3>
+      <div class="leaderboard-list">
+        <div *ngFor="let entry of leaderboard; let i = index" class="leaderboard-item">
+          <div class="rank">{{ i + 1 }}</div>
+          <div class="element-name">{{ entry.elementType }}</div>
+          <div class="element-value">{{ formatValue(entry.value) }} ALQ</div>
+          <div class="discoverer">{{ entry.discoverer === 'current_player' ? 'You' : entry.discoverer }}</div>
+          <div class="discovery-time">{{ formatTime(entry.timestamp) }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
