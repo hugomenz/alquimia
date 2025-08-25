@@ -1,12 +1,144 @@
-<div class="inventory">
-  <div
-    class="inv-slot"
-    *ngFor="let item of inventory"
-    [class.empty]="item.type === 'empty'"
-    (click)="selectItem(item)"
-  >
-    {{
-      item.type === "empty" ? "Vacío" : item.type + " (" + item.quantity + ")"
-    }}
+<div class="inventory-container">
+  <div class="inventory-header">
+    <h2>Inventario & Laboratorio</h2>
+    <div class="discovery-stats">
+      <div class="stats-item">
+        <span class="stats-label">Elementos:</span>
+        <span class="stats-value">{{ getDiscoveryStats().discovered }}/{{ getDiscoveryStats().total }}</span>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width]="getDiscoveryStats().percentage + '%'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Inventory -->
+  <div class="active-inventory">
+    <h3>Elementos Disponibles</h3>
+    <div class="inventory-controls">
+      <button class="organize-btn" (click)="organizeInventory()">📋 Organizar</button>
+    </div>
+    <div class="inventory-grid">
+      <div
+        class="inv-slot"
+        *ngFor="let item of inventory"
+        [class.empty]="item.type === 'empty'"
+        [class.available]="item.quantity > 0"
+        (click)="selectItem(item)"
+        [title]="item.type === 'empty' ? 'Slot vacío' : getElementData(item.type)?.description"
+      >
+        <div class="slot-content" *ngIf="item.type !== 'empty'">
+          <div class="element-info" [ngStyle]="getItemStyle(getElementData(item.type)!)">
+            <span class="element-name">{{ getElementData(item.type)?.displayName || item.type }}</span>
+            <span class="element-quantity">{{ item.quantity }}</span>
+            <div class="element-meta">
+              <span class="element-rarity">{{ getElementData(item.type)?.rarity }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="empty-slot" *ngIf="item.type === 'empty'">
+          <i class="empty-icon">⊕</i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Discovery Lab -->
+  <div class="discovery-lab">
+    <h3>Laboratorio de Descubrimientos</h3>
+    
+    <!-- Filters -->
+    <div class="lab-filters">
+      <div class="filter-group">
+        <label for="search">🔍 Buscar:</label>
+        <input
+          id="search"
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Nombre, descripción..."
+          class="search-input"
+        />
+      </div>
+      
+      <div class="filter-group">
+        <label for="category">📁 Categoría:</label>
+        <select id="category" [(ngModel)]="selectedCategory" class="filter-select">
+          <option *ngFor="let cat of categories" [value]="cat.value">{{ cat.label }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label for="rarity">⭐ Rareza:</label>
+        <select id="rarity" [(ngModel)]="selectedRarity" class="filter-select">
+          <option *ngFor="let rarity of rarities" [value]="rarity.value">{{ rarity.label }}</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            [(ngModel)]="showOnlyDiscovered"
+          />
+          <span class="checkmark"></span>
+          Solo descubiertos
+        </label>
+      </div>
+    </div>
+
+    <!-- Elements Grid -->
+    <div class="elements-grid">
+      <div
+        *ngFor="let element of getFilteredElements()"
+        [class]="getItemClass(element)"
+        [ngStyle]="getItemStyle(element)"
+        [title]="element.description"
+        (click)="isElementDiscovered(element.type) && getElementQuantity(element.type) > 0 ? selectItem({type: element.type, quantity: getElementQuantity(element.type)}) : null"
+      >
+        <div class="element-content">
+          <div class="element-icon" [style.color]="element.color">
+            {{ element.displayName.charAt(0).toUpperCase() }}
+          </div>
+          <div class="element-details">
+            <span class="element-name" *ngIf="isElementDiscovered(element.type); else unknownElement">
+              {{ element.displayName }}
+            </span>
+            <ng-template #unknownElement>
+              <span class="unknown-name">???</span>
+            </ng-template>
+            
+            <div class="element-meta" *ngIf="isElementDiscovered(element.type)">
+              <span class="element-category">{{ element.category }}</span>
+              <span class="element-rarity" [style.color]="element.color">{{ element.rarity }}</span>
+              <span class="element-quantity" *ngIf="getElementQuantity(element.type) > 0">
+                Qty: {{ getElementQuantity(element.type) }}
+              </span>
+            </div>
+            
+            <div class="element-properties" *ngIf="isElementDiscovered(element.type) && element.properties">
+              <span class="property" *ngFor="let prop of element.properties.slice(0, 2)">{{ prop }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="discovery-overlay" *ngIf="!isElementDiscovered(element.type)">
+          <div class="mystery-icon">🔒</div>
+          <div class="mystery-text">No descubierto</div>
+        </div>
+        
+        <div class="rarity-indicator" [style.background-color]="element.color"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Stats -->
+  <div class="summary-stats">
+    <h4>Estadísticas por Rareza</h4>
+    <div class="rarity-stats">
+      <div class="rarity-stat" *ngFor="let rarity of rarities.slice(1)">
+        <span class="rarity-name">{{ rarity.label }}:</span>
+        <span class="rarity-count">{{ getRarityStats()[rarity.value] || 0 }}</span>
+      </div>
+    </div>
   </div>
 </div>

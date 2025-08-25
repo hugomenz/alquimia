@@ -1,5 +1,71 @@
-<div class="main-stage">
-  <div class="stage-slot">{{ slot1 ? slot1 : "Vacío" }}</div>
-  <div class="stage-slot">{{ slot2 ? slot2 : "Vacío" }}</div>
+<div class="main-stage-container">
+  <div class="stage-header">
+    <h2>Mesa de Trabajo</h2>
+    <p class="stage-description">Combina elementos para descubrir nuevos materiales</p>
+  </div>
+
+  <div class="main-stage">
+    <div 
+      *ngFor="let slot of slots; let i = index"
+      [class]="getSlotClass(i)"
+      [ngStyle]="getSlotStyle(i)"
+      (click)="removeElementFromSlot(i)"
+      [title]="slot ? getElementData(slot)?.description : 'Slot vacío - Arrastra elementos aquí'"
+    >
+      <div class="slot-content">
+        <span class="element-name" *ngIf="slot">
+          {{ getElementData(slot)?.displayName || slot }}
+        </span>
+        <span class="slot-number">{{ i + 1 }}</span>
+        <div class="element-details" *ngIf="slot">
+          <span class="element-category">{{ getElementData(slot)?.category }}</span>
+          <span class="element-rarity">{{ getElementData(slot)?.rarity }}</span>
+        </div>
+      </div>
+      <div class="slot-overlay" *ngIf="!slot">
+        <i class="slot-icon">+</i>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage-controls">
+    <button 
+      class="fuse-button" 
+      [class.disabled]="!canFuse()"
+      [class.animating]="isAnimating"
+      (click)="fuse()" 
+      [disabled]="!canFuse()"
+    >
+      <span *ngIf="!isAnimating">🔥 Fusionar</span>
+      <span *ngIf="isAnimating" class="loading">⚡ Fusionando...</span>
+    </button>
+    
+    <button 
+      class="clear-button" 
+      (click)="clearSlots()"
+      [disabled]="isAnimating"
+    >
+      🗑️ Limpiar
+    </button>
+  </div>
+
+  <div class="hint-section" *ngIf="currentHint">
+    <div class="hint-bubble">
+      <i class="hint-icon">💡</i>
+      <span>{{ currentHint }}</span>
+    </div>
+  </div>
+
+  <div class="result-section" *ngIf="lastResult">
+    <div class="result-message" [class.success]="lastResult.success" [class.failure]="!lastResult.success">
+      <span>{{ lastResult.element }}</span>
+    </div>
+  </div>
+
+  <div class="fusion-animation" *ngIf="isAnimating">
+    <div class="energy-swirl"></div>
+    <div class="spark spark-1"></div>
+    <div class="spark spark-2"></div>
+    <div class="spark spark-3"></div>
+  </div>
 </div>
-<button (click)="fuse()" [disabled]="!slot1 || !slot2">Fusionar</button>

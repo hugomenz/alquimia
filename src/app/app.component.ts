@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { MainStageComponent } from './components/main-stage/main-stage.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { InventoryService } from './services/inventory.service';
+import { GameStateService } from './services/game-state.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,10 @@ import { InventoryService } from './services/inventory.service';
 export class AppComponent {
   @ViewChild('mainStage') mainStageComponent?: MainStageComponent;
 
-  constructor(private invService: InventoryService) {}
+  constructor(
+    private invService: InventoryService,
+    private gameState: GameStateService
+  ) {}
 
   onElementSelected(type: string) {
     const placed = this.mainStageComponent?.placeElement(type);

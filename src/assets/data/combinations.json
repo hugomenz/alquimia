@@ -1,30 +1,518 @@
 [
   {
     "inputs": ["fuego", "agua"],
-    "result": "vapor"
+    "result": "vapor",
+    "difficulty": 1,
+    "description": "El calor del fuego transforma el agua en vapor"
   },
   {
     "inputs": ["fuego", "aire"],
-    "result": "calor"
+    "result": "calor",
+    "difficulty": 1,
+    "description": "El fuego calienta el aire generando calor puro"
   },
   {
     "inputs": ["agua", "aire"],
-    "result": "nube"
+    "result": "nube",
+    "difficulty": 1,
+    "description": "El agua se eleva con el aire formando nubes"
   },
   {
     "inputs": ["agua", "tierra"],
-    "result": "barro"
+    "result": "barro",
+    "difficulty": 1,
+    "description": "El agua ablanda la tierra creando barro moldeable"
   },
   {
     "inputs": ["fuego", "tierra"],
-    "result": "lava"
+    "result": "lava",
+    "difficulty": 2,
+    "description": "El fuego intenso derrite la tierra en lava ardiente"
   },
   {
     "inputs": ["aire", "tierra"],
-    "result": "polvo"
+    "result": "polvo",
+    "difficulty": 1,
+    "description": "El aire erosiona la tierra hasta convertirla en polvo"
   },
   {
     "inputs": ["tierra", "tierra"],
-    "result": "roca"
+    "result": "roca",
+    "difficulty": 1,
+    "description": "La tierra se compacta formando roca sólida"
+  },
+  {
+    "inputs": ["agua", "fuego", "aire"],
+    "result": "tormenta",
+    "difficulty": 3,
+    "description": "Los tres elementos se combinan en una tormenta violenta"
+  },
+  {
+    "inputs": ["vapor", "aire"],
+    "result": "nube",
+    "difficulty": 1,
+    "description": "El vapor se condensa en el aire formando nubes"
+  },
+  {
+    "inputs": ["agua", "calor"],
+    "result": "vapor",
+    "difficulty": 1,
+    "description": "El calor convierte el agua en vapor"
+  },
+  {
+    "inputs": ["aire", "calor"],
+    "result": "viento",
+    "difficulty": 2,
+    "description": "El calor mueve el aire creando viento"
+  },
+  {
+    "inputs": ["nube", "fuego"],
+    "result": "lluvia",
+    "difficulty": 2,
+    "description": "El fuego provoca condensación en las nubes"
+  },
+  {
+    "inputs": ["agua", "frio"],
+    "result": "hielo",
+    "difficulty": 2,
+    "description": "El frío congela el agua en hielo sólido"
+  },
+  {
+    "inputs": ["tierra", "calor"],
+    "result": "arena",
+    "difficulty": 2,
+    "description": "El calor seca y fragmenta la tierra en arena"
+  },
+  {
+    "inputs": ["fuego", "roca"],
+    "result": "lava",
+    "difficulty": 2,
+    "description": "El fuego derrite la roca creando lava"
+  },
+  {
+    "inputs": ["lava", "agua"],
+    "result": "roca",
+    "difficulty": 2,
+    "description": "El agua enfría la lava solidificándola en roca"
+  },
+  {
+    "inputs": ["barro", "fuego"],
+    "result": "ceramica",
+    "difficulty": 3,
+    "description": "El fuego endurece el barro creando cerámica"
+  },
+  {
+    "inputs": ["tierra", "agua", "semilla"],
+    "result": "planta",
+    "difficulty": 3,
+    "description": "La semilla crece con tierra y agua"
+  },
+  {
+    "inputs": ["planta", "aire"],
+    "result": "oxigeno",
+    "difficulty": 3,
+    "description": "Las plantas producen oxígeno mediante fotosíntesis"
+  },
+  {
+    "inputs": ["planta", "fuego"],
+    "result": "carbon",
+    "difficulty": 2,
+    "description": "Las plantas quemadas se convierten en carbón"
+  },
+  {
+    "inputs": ["planta", "tiempo"],
+    "result": "arbol",
+    "difficulty": 4,
+    "description": "Con tiempo, las plantas crecen hasta ser árboles"
+  },
+  {
+    "inputs": ["arbol", "viento"],
+    "result": "semilla",
+    "difficulty": 2,
+    "description": "El viento dispersa las semillas de los árboles"
+  },
+  {
+    "inputs": ["planta", "sol"],
+    "result": "flor",
+    "difficulty": 3,
+    "description": "El sol hace florecer las plantas"
+  },
+  {
+    "inputs": ["flor", "tiempo"],
+    "result": "fruto",
+    "difficulty": 3,
+    "description": "Las flores se convierten en frutos con el tiempo"
+  },
+  {
+    "inputs": ["metal", "fuego"],
+    "result": "herramienta",
+    "difficulty": 3,
+    "description": "El fuego forja el metal en herramientas útiles"
+  },
+  {
+    "inputs": ["roca", "fuego"],
+    "result": "metal",
+    "difficulty": 3,
+    "description": "El fuego extrae metal de la roca"
+  },
+  {
+    "inputs": ["arena", "fuego"],
+    "result": "cristal",
+    "difficulty": 4,
+    "description": "El fuego intenso funde la arena en cristal"
+  },
+  {
+    "inputs": ["agua", "sal"],
+    "result": "mar",
+    "difficulty": 3,
+    "description": "El agua salada forma los mares"
+  },
+  {
+    "inputs": ["lluvia", "tierra"],
+    "result": "rio",
+    "difficulty": 3,
+    "description": "La lluvia forma ríos que fluyen por la tierra"
+  },
+  {
+    "inputs": ["rio", "tiempo"],
+    "result": "lago",
+    "difficulty": 4,
+    "description": "Los ríos se acumulan formando lagos"
+  },
+  {
+    "inputs": ["lluvia", "frio"],
+    "result": "nieve",
+    "difficulty": 3,
+    "description": "La lluvia se congela en nieve al encontrar frío"
+  },
+  {
+    "inputs": ["nieve", "sol"],
+    "result": "agua",
+    "difficulty": 2,
+    "description": "El sol derrite la nieve convirtiéndola en agua"
+  },
+  {
+    "inputs": ["lluvia", "sol"],
+    "result": "arcoiris",
+    "difficulty": 4,
+    "description": "La luz solar se refracta en las gotas de lluvia"
+  },
+  {
+    "inputs": ["fuego", "tierra", "aire"],
+    "result": "volcan",
+    "difficulty": 5,
+    "description": "Los elementos se combinan creando un volcán"
+  },
+  {
+    "inputs": ["tormenta", "agua"],
+    "result": "huracan",
+    "difficulty": 5,
+    "description": "La tormenta se intensifica sobre el agua"
+  },
+  {
+    "inputs": ["viento", "agua"],
+    "result": "ola",
+    "difficulty": 3,
+    "description": "El viento agita el agua creando olas"
+  },
+  {
+    "inputs": ["fuego", "aire", "tierra"],
+    "result": "explosion",
+    "difficulty": 5,
+    "description": "La combinación violenta de elementos causa explosión"
+  },
+  {
+    "inputs": ["electricidad", "agua"],
+    "result": "vida",
+    "difficulty": 6,
+    "description": "La electricidad puede dar vida a través del agua"
+  },
+  {
+    "inputs": ["electricidad", "aire"],
+    "result": "rayo",
+    "difficulty": 4,
+    "description": "La electricidad se descarga a través del aire"
+  },
+  {
+    "inputs": ["rayo", "arena"],
+    "result": "vidrio",
+    "difficulty": 5,
+    "description": "El rayo funde instantáneamente la arena en vidrio"
+  },
+  {
+    "inputs": ["vida", "tiempo"],
+    "result": "evolucion",
+    "difficulty": 7,
+    "description": "La vida cambia y se adapta con el tiempo"
+  },
+  {
+    "inputs": ["vida", "muerte"],
+    "result": "ciclo",
+    "difficulty": 6,
+    "description": "La vida y muerte forman un ciclo eterno"
+  },
+  {
+    "inputs": ["energia", "materia"],
+    "result": "universo",
+    "difficulty": 8,
+    "description": "La energía y materia forman todo el universo"
+  },
+  {
+    "inputs": ["tierra", "agua", "aire", "fuego"],
+    "result": "mundo",
+    "difficulty": 6,
+    "description": "Los cuatro elementos primarios crean un mundo"
+  },
+  {
+    "inputs": ["herramienta", "tierra"],
+    "result": "agricultura",
+    "difficulty": 4,
+    "description": "Las herramientas permiten cultivar la tierra"
+  },
+  {
+    "inputs": ["agricultura", "tiempo"],
+    "result": "civilizacion",
+    "difficulty": 6,
+    "description": "La agricultura permite el desarrollo de civilizaciones"
+  },
+  {
+    "inputs": ["herramienta", "metal"],
+    "result": "maquina",
+    "difficulty": 5,
+    "description": "Las herramientas metálicas forman máquinas complejas"
+  },
+  {
+    "inputs": ["maquina", "electricidad"],
+    "result": "robot",
+    "difficulty": 6,
+    "description": "Las máquinas eléctricas pueden ser robots"
+  },
+  {
+    "inputs": ["fuego", "madera"],
+    "result": "fuego_artificial",
+    "difficulty": 3,
+    "description": "El fuego controlado con madera es fuego artificial"
+  },
+  {
+    "inputs": ["fuego_artificial", "barro"],
+    "result": "horno",
+    "difficulty": 4,
+    "description": "El fuego artificial y barro crean un horno"
+  },
+  {
+    "inputs": ["horno", "arena"],
+    "result": "vidrio",
+    "difficulty": 4,
+    "description": "El horno puede fundir arena en vidrio"
+  },
+  {
+    "inputs": ["madera", "herramienta"],
+    "result": "casa",
+    "difficulty": 4,
+    "description": "La madera y herramientas construyen casas"
+  },
+  {
+    "inputs": ["casa", "casa"],
+    "result": "pueblo",
+    "difficulty": 5,
+    "description": "Muchas casas forman un pueblo"
+  },
+  {
+    "inputs": ["pueblo", "tiempo"],
+    "result": "ciudad",
+    "difficulty": 6,
+    "description": "Los pueblos crecen hasta convertirse en ciudades"
+  },
+  {
+    "inputs": ["conocimiento", "herramienta"],
+    "result": "libro",
+    "difficulty": 4,
+    "description": "El conocimiento se preserva en libros"
+  },
+  {
+    "inputs": ["libro", "libro"],
+    "result": "biblioteca",
+    "difficulty": 5,
+    "description": "Muchos libros forman una biblioteca"
+  },
+  {
+    "inputs": ["pensamiento", "tiempo"],
+    "result": "idea",
+    "difficulty": 4,
+    "description": "El pensamiento maduro se convierte en idea"
+  },
+  {
+    "inputs": ["idea", "idea"],
+    "result": "filosofia",
+    "difficulty": 6,
+    "description": "Las ideas complejas forman filosofía"
+  },
+  {
+    "inputs": ["observacion", "tiempo"],
+    "result": "ciencia",
+    "difficulty": 6,
+    "description": "La observación sistemática crea ciencia"
+  },
+  {
+    "inputs": ["vida", "cariño"],
+    "result": "amor",
+    "difficulty": 5,
+    "description": "La vida con cariño genera amor"
+  },
+  {
+    "inputs": ["amenaza", "vida"],
+    "result": "miedo",
+    "difficulty": 3,
+    "description": "Las amenazas a la vida causan miedo"
+  },
+  {
+    "inputs": ["logro", "vida"],
+    "result": "alegria",
+    "difficulty": 4,
+    "description": "Los logros en la vida traen alegría"
+  },
+  {
+    "inputs": ["perdida", "amor"],
+    "result": "tristeza",
+    "difficulty": 4,
+    "description": "La pérdida del amor causa tristeza"
+  },
+  {
+    "inputs": ["injusticia", "impotencia"],
+    "result": "ira",
+    "difficulty": 4,
+    "description": "La injusticia e impotencia generan ira"
+  },
+  {
+    "inputs": ["sol", "planeta"],
+    "result": "sistema_solar",
+    "difficulty": 7,
+    "description": "El sol y planetas forman sistemas solares"
+  },
+  {
+    "inputs": ["estrella", "estrella"],
+    "result": "galaxia",
+    "difficulty": 8,
+    "description": "Muchas estrellas forman galaxias"
+  },
+  {
+    "inputs": ["galaxia", "tiempo"],
+    "result": "universo",
+    "difficulty": 9,
+    "description": "Las galaxias evolucionan formando el universo"
+  },
+  {
+    "inputs": ["hielo", "cometa"],
+    "result": "agua",
+    "difficulty": 5,
+    "description": "Los cometas helados pueden traer agua"
+  },
+  {
+    "inputs": ["planeta", "vida"],
+    "result": "ecosistema",
+    "difficulty": 6,
+    "description": "La vida en planetas forma ecosistemas"
+  },
+  {
+    "inputs": ["ecosistema", "tiempo"],
+    "result": "biodiversidad",
+    "difficulty": 7,
+    "description": "Los ecosistemas desarrollan biodiversidad"
+  },
+  {
+    "inputs": ["carbon", "presion"],
+    "result": "diamante",
+    "difficulty": 6,
+    "description": "El carbón bajo presión se convierte en diamante"
+  },
+  {
+    "inputs": ["luz", "cristal"],
+    "result": "arcoiris",
+    "difficulty": 4,
+    "description": "La luz se refracta en cristales creando arcoíris"
+  },
+  {
+    "inputs": ["sonido", "aire"],
+    "result": "musica",
+    "difficulty": 4,
+    "description": "El sonido organizado en el aire crea música"
+  },
+  {
+    "inputs": ["musica", "emocion"],
+    "result": "arte",
+    "difficulty": 5,
+    "description": "La música con emoción se convierte en arte"
+  },
+  {
+    "inputs": ["arte", "tiempo"],
+    "result": "cultura",
+    "difficulty": 6,
+    "description": "El arte preservado en el tiempo forma cultura"
+  },
+  {
+    "inputs": ["sal", "agua"],
+    "result": "solucion",
+    "difficulty": 3,
+    "description": "La sal se disuelve en agua formando solución"
+  },
+  {
+    "inputs": ["acido", "metal"],
+    "result": "corrosion",
+    "difficulty": 4,
+    "description": "El ácido corroe el metal"
+  },
+  {
+    "inputs": ["alcohol", "fuego"],
+    "result": "llama_azul",
+    "difficulty": 4,
+    "description": "El alcohol arde con llama azul característica"
+  },
+  {
+    "inputs": ["medicina", "veneno"],
+    "result": "antidoto",
+    "difficulty": 6,
+    "description": "La medicina puede neutralizar venenos"
+  },
+  {
+    "inputs": ["planta", "medicina"],
+    "result": "hierba_medicinal",
+    "difficulty": 4,
+    "description": "Algunas plantas tienen propiedades medicinales"
+  },
+  {
+    "inputs": ["sangre", "oxigeno"],
+    "result": "vida",
+    "difficulty": 5,
+    "description": "La sangre transporta oxígeno sustentando la vida"
+  },
+  {
+    "inputs": ["hueso", "carne"],
+    "result": "animal",
+    "difficulty": 5,
+    "description": "Los huesos y carne forman animales"
+  },
+  {
+    "inputs": ["animal", "domesticacion"],
+    "result": "mascota",
+    "difficulty": 4,
+    "description": "Los animales domesticados se vuelven mascotas"
+  },
+  {
+    "inputs": ["animal", "caza"],
+    "result": "alimento",
+    "difficulty": 4,
+    "description": "Los animales cazados proporcionan alimento"
+  },
+  {
+    "inputs": ["fruto", "tiempo"],
+    "result": "semilla",
+    "difficulty": 3,
+    "description": "Los frutos maduros liberan semillas"
+  },
+  {
+    "inputs": ["semilla", "viento"],
+    "result": "dispersión",
+    "difficulty": 3,
+    "description": "El viento dispersa semillas para reproducción"
   }
 ]
